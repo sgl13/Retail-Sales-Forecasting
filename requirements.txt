@@ -1,0 +1,8 @@
+pandas
+numpy
+plotly
+scikit-learn
+lightgbm
+xgboost
+joblib
+pickle-mixin

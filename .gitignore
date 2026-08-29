@@ -1,0 +1,9 @@
+data/
+*.csv
+models/*.pkl
+__pycache__/
+.venv/
+.DS_Store
+venv/
+__pycache__/
+.idea/
