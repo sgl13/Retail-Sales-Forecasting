@@ -6,3 +6,5 @@ lightgbm
 xgboost
 joblib
 pickle-mixin
+streamlit
+gunicorn
