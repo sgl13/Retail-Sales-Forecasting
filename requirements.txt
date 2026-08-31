@@ -3,8 +3,6 @@ numpy
 plotly
 scikit-learn
 lightgbm
-xgboost
+xgboost==2.1.4
 joblib
-pickle-mixin
 streamlit
-gunicorn
