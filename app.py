@@ -10,10 +10,99 @@ import plotly.express as px
 import streamlit as st
 
 from predictions import predict_batch, predict_sales
+from feature_engineering import engineer_batch_features, MISSING_REFERENCE_FILES
+
+# ==========================================================
+# Streamlit Configuration (MUST BE FIRST STREAMLIT CALL)
+# ==========================================================
+
+st.set_page_config(
+    page_title="Retail Sales Forecasting", page_icon="📈", layout="wide"
+)
+
+# ==========================================================
+# Custom CSS
+# ==========================================================
+
+st.markdown(
+    """
+<style>
+.main {
+    background-color: #f7f9fc;
+}
+h1, h2, h3 {
+    color: #0E4D92;
+}
+div[data-testid="metric-container"] {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,.10);
+}
+.stButton>button {
+    width: 100%;
+    background: #1565C0;
+    color: white;
+    border-radius: 8px;
+    height: 45px;
+    font-size: 17px;
+    font-weight: bold;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 
 # ==========================================================
 # Helper Function for File Resolution & Date Merging
 # ==========================================================
+
+
+def enrich_with_test_metadata(sub_df):
+    """If the uploaded batch file is missing 'date' (e.g. sample_submission.csv style with just id/sales),
+    merge date/store_nbr/family/onpromotion from test.csv using 'id'.
+    Returns (df, merged_bool, error_message_or_None).
+    """
+    if "date" in sub_df.columns:
+        return sub_df, False, None
+
+    if "id" not in sub_df.columns:
+        return sub_df, False, (
+            "Your file has no 'date' column, and no 'id' column either, "
+            "so there's no way to look up dates from test.csv."
+        )
+
+    test_paths = [
+        "data/sales_retail_timeseries_data/test.csv",
+        "data/test.csv",
+    ]
+
+    for t_path in test_paths:
+        if os.path.exists(t_path):
+            test_df = pd.read_csv(t_path)
+            cols_to_use = [
+                c
+                for c in ["id", "date", "store_nbr", "family", "onpromotion"]
+                if c in test_df.columns
+            ]
+            if "date" not in cols_to_use:
+                continue
+
+            merged = sub_df.merge(test_df[cols_to_use], on="id", how="left")
+
+            if merged["date"].isna().all():
+                return sub_df, False, (
+                    f"Found {t_path}, but none of the 'id' values in your "
+                    f"upload matched it, so 'date' couldn't be filled in."
+                )
+
+            return merged, True, None
+
+    return sub_df, False, (
+        "Your file has no 'date' column (sample_submission.csv format). "
+        "Please ensure test.csv is placed in the `data/` folder for metadata lookup."
+    )
 
 
 def load_submission_data():
@@ -36,12 +125,10 @@ def load_submission_data():
     if sub_df is None:
         return None
 
-    # If 'date' is missing, join metadata from test.csv using 'id'
     if "date" not in sub_df.columns and "id" in sub_df.columns:
         for t_path in test_paths:
             if os.path.exists(t_path):
                 test_df = pd.read_csv(t_path)
-                # Merge date and metadata columns if present
                 cols_to_use = [
                     c
                     for c in ["id", "date", "store_nbr", "family"]
@@ -52,47 +139,6 @@ def load_submission_data():
 
     return sub_df
 
-
-# ==========================================================
-# Streamlit Configuration
-# ==========================================================
-
-st.set_page_config(
-    page_title="Retail Sales Forecasting", page_icon="📈", layout="wide"
-)
-
-# ==========================================================
-# Custom CSS
-# ==========================================================
-
-st.markdown(
-    """
-<style>
-.main{
-    background-color:#f7f9fc;
-}
-h1,h2,h3{
-    color:#0E4D92;
-}
-div[data-testid="metric-container"]{
-    background:white;
-    border-radius:12px;
-    padding:15px;
-    box-shadow:0 0 10px rgba(0,0,0,.10);
-}
-.stButton>button{
-    width:100%;
-    background:#1565C0;
-    color:white;
-    border-radius:8px;
-    height:45px;
-    font-size:17px;
-    font-weight:bold;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
 
 # ==========================================================
 # Load Metrics
@@ -107,7 +153,7 @@ except Exception as e:
     )
 
 # ==========================================================
-# Sidebar
+# Sidebar Navigation
 # ==========================================================
 
 st.sidebar.title("📈 Retail Sales Forecasting")
@@ -124,7 +170,7 @@ page = st.sidebar.radio(
 if page == "Dashboard":
 
     st.title("Retail Sales Forecasting Dashboard")
-    st.write("Predict future retail sales using an XGBoost Regression Model.")
+    st.write("Predict future retail sales using an Ensemble Machine Learning Model.")
     st.markdown("---")
 
     col1, col2, col3 = st.columns(3)
@@ -160,7 +206,7 @@ if page == "Dashboard":
         st.warning("No submission data found - sample chart unavailable.")
 
     st.info(
-        "Use the sidebar to access Single Prediction, Batch Prediction and Analytics."
+        "Use the sidebar to access Single Prediction, Batch Prediction, and Analytics."
     )
 
 # ==========================================================
@@ -170,7 +216,7 @@ if page == "Dashboard":
 elif page == "Single Prediction":
 
     st.title("🔮 Single Sales Prediction")
-    st.write("Enter all feature values to predict retail sales.")
+    st.write("Enter feature values to predict retail sales for a specific store item.")
 
     with st.form("prediction_form"):
 
@@ -186,31 +232,31 @@ elif page == "Single Prediction":
             cluster = st.number_input("Cluster", min_value=1, value=13)
 
         with col2:
-            onpromotion = st.number_input("On Promotion", min_value=0, value=0)
+            onpromotion = st.number_input("On Promotion Count", min_value=0, value=0)
             is_weekend = st.selectbox("Weekend", [0, 1])
-            dcoilwtico = st.number_input("Oil Price", value=60.0)
-            oil_roll_7 = st.number_input("Oil Rolling 7", value=60.0)
-            oil_fwd_1 = st.number_input("Oil Forward 1", value=60.0)
-            oil_fwd_3 = st.number_input("Oil Forward 3", value=60.0)
+            dcoilwtico = st.number_input("Oil Price ($)", value=60.0)
+            oil_roll_7 = st.number_input("Oil Rolling 7 Days", value=60.0)
+            oil_fwd_1 = st.number_input("Oil Forward 1 Day", value=60.0)
+            oil_fwd_3 = st.number_input("Oil Forward 3 Days", value=60.0)
 
-        st.subheader("Calendar Features")
+        st.subheader("Calendar & Temporal Features")
         col3, col4 = st.columns(2)
 
         with col3:
             is_holiday = st.selectbox("Holiday", [0, 1])
-            day = st.slider("Day", 1, 31, 15)
-            dayofweek = st.slider("Day of Week", 0, 6, 2)
+            day = st.slider("Day of Month", 1, 31, 15)
+            dayofweek = st.slider("Day of Week (0=Mon, 6=Sun)", 0, 6, 2)
 
         with col4:
-            isweekend = st.selectbox("Is Weekend", [0, 1])
-            is_payday = st.selectbox("Pay Day", [0, 1])
+            isweekend = st.selectbox("Is Weekend Flag", [0, 1])
+            is_payday = st.selectbox("Payday Flag", [0, 1])
 
-        st.subheader("Historical Features")
+        st.subheader("Historical Sales Dynamics")
 
-        sales_lag_21 = st.number_input("Sales Lag 21", value=2500.0)
-        sales_lag_28 = st.number_input("Sales Lag 28", value=2600.0)
-        sales_roll_21_7 = st.number_input("Sales Rolling Mean", value=2550.0)
-        promo_roll_3 = st.number_input("Promotion Rolling 3", value=0.0)
+        sales_lag_21 = st.number_input("Sales Lag (21 Days Ago)", value=2500.0)
+        sales_lag_28 = st.number_input("Sales Lag (28 Days Ago)", value=2600.0)
+        sales_roll_21_7 = st.number_input("7-Day Sales Rolling Mean", value=2550.0)
+        promo_roll_3 = st.number_input("3-Day Promotion Rolling Mean", value=0.0)
 
         submit = st.form_submit_button("Predict Sales")
 
@@ -241,14 +287,13 @@ elif page == "Single Prediction":
 
         try:
             input_df = pd.DataFrame(user_data)
-
             prediction = predict_sales(input_df)
 
-            if isinstance(prediction, (np.ndarray, list)):
+            if isinstance(prediction, (np.ndarray, list, pd.Series)):
                 prediction = prediction[0]
 
             st.success("Prediction Completed Successfully ✅")
-            st.metric("Predicted Sales", f"{max(0.0, float(prediction)):,.2f}")
+            st.metric("Predicted Sales (Units)", f"{max(0.0, float(prediction)):,.2f}")
         except Exception as e:
             st.error(f"Prediction failed: {e}")
 
@@ -260,31 +305,94 @@ elif page == "Batch Prediction":
 
     st.title("📂 Batch Prediction")
 
+    if MISSING_REFERENCE_FILES:
+        st.warning(
+            "⚠️ Missing reference data: " + ", ".join(MISSING_REFERENCE_FILES) +
+            ". Predictions will still run, but missing features will be imputed with 0."
+        )
+
     uploaded_file = st.file_uploader("Upload CSV File", type=["csv"])
 
     if uploaded_file is not None:
 
-        df = pd.read_csv(uploaded_file)
-        st.subheader("Dataset Preview")
-        st.dataframe(df.head())
+        raw_df = pd.read_csv(uploaded_file)
+        st.subheader("Dataset Preview (Raw Upload)")
+        st.dataframe(raw_df.head())
+
+        raw_df, was_merged, merge_error = enrich_with_test_metadata(raw_df)
+
+        if was_merged:
+            st.info(
+                "Auto-merged missing date/store_nbr/family metadata from test.csv using 'id'."
+            )
+        elif merge_error and "date" not in raw_df.columns:
+            st.warning(merge_error)
 
         if st.button("Predict Entire Dataset"):
             try:
-                result = predict_batch(df)
+                # 1. Feature Engineering
+                engineered_df = engineer_batch_features(raw_df)
 
-                # Save batch predictions to data/submission.csv for Analytics & Dashboard
+                # 2. Generate Predictions
+                result = predict_batch(engineered_df)
+
+                # Ensure 'sales' column exists in result
+                if "sales" not in result.columns:
+                    if "prediction" in result.columns:
+                        result = result.rename(columns={"prediction": "sales"})
+                    elif isinstance(result, (pd.Series, np.ndarray, list)):
+                        result_df = engineered_df.copy()
+                        result_df["sales"] = result
+                        result = result_df
+
+                # 3. Explicitly Pin Key Columns (id, sales, date) to the Front
+                front_priority = ["id", "sales", "date", "store_nbr", "family"]
+                existing_front = [c for c in front_priority if c in result.columns]
+                remaining_cols = [c for c in result.columns if c not in existing_front]
+
+                ordered_result = result[existing_front + remaining_cols]
+
+                # Save submission file
                 os.makedirs("data", exist_ok=True)
-                result.to_csv("data/submission.csv", index=False)
+                if 'id' in ordered_result.columns and 'sales' in ordered_result.columns:
+                    sub_df = ordered_result[['id', 'sales']].copy()
+                    sub_df['id'] = sub_df['id'].astype(int)
+                    sub_df.to_csv("data/submission.csv", index=False)
+                else:
+                    ordered_result.to_csv("data/submission.csv", index=False)
 
                 st.success("Prediction Completed Successfully ✅")
-                st.dataframe(result.head())
 
-                st.download_button(
-                    label="Download Predictions",
-                    data=result.to_csv(index=False),
-                    file_name="Predictions.csv",
-                    mime="text/csv",
-                )
+                # 4. Render Features & Prediction Results
+                st.subheader("Engineered Features Preview")
+                st.dataframe(engineered_df.head())
+
+                st.subheader("Prediction Results Preview")
+                st.dataframe(ordered_result.head(10))
+
+                # 5. Download Action Buttons
+                col_d1, col_d2 = st.columns(2)
+
+                with col_d1:
+                    full_csv = ordered_result.to_csv(index=False).encode('utf-8')
+                    st.download_button(
+                        label="Download Full Predictions CSV",
+                        data=full_csv,
+                        file_name="full_predictions.csv",
+                        mime="text/csv",
+                    )
+
+                with col_d2:
+                    if 'id' in ordered_result.columns and 'sales' in ordered_result.columns:
+                        submission_df = ordered_result[['id', 'sales']].copy()
+                        submission_df['id'] = submission_df['id'].astype(int)
+                        submission_csv = submission_df.to_csv(index=False).encode('utf-8')
+                        st.download_button(
+                            label="Download Kaggle Submission CSV",
+                            data=submission_csv,
+                            file_name="submission.csv",
+                            mime="text/csv",
+                        )
             except Exception as e:
                 st.error(f"Batch prediction failed: {e}")
 
@@ -300,8 +408,7 @@ elif page == "Analytics":
 
     if df is not None and "sales" in df.columns:
 
-        # Key Metrics Overview
-        st.subheader("💡 Sales Summary")
+        st.subheader("💡 Sales Summary Overview")
         m1, m2, m3, m4 = st.columns(4)
 
         total_sales = df["sales"].sum()
@@ -320,7 +427,6 @@ elif page == "Analytics":
 
         st.markdown("---")
 
-        # Time-Series Aggregation Chart
         st.subheader("📈 Overall Sales Trend Over Time")
         if "date" in df.columns:
             df["date"] = pd.to_datetime(df["date"])
@@ -336,12 +442,7 @@ elif page == "Analytics":
             )
             st.plotly_chart(fig_trend, use_container_width=True)
         else:
-            st.info(
-                "No 'date' column present in submission file. Plotting sequence trend with a moving average."
-            )
-            df["moving_avg"] = (
-                df["sales"].rolling(window=50, min_periods=1).mean()
-            )
+            df["moving_avg"] = df["sales"].rolling(window=50, min_periods=1).mean()
             fig_trend = px.line(
                 df.head(500),
                 y=["sales", "moving_avg"],
@@ -353,7 +454,6 @@ elif page == "Analytics":
 
         st.markdown("---")
 
-        # Categorical Breakdown Charts
         col_left, col_right = st.columns(2)
 
         with col_left:
@@ -402,10 +502,6 @@ elif page == "Analytics":
                     color="sales",
                 )
                 st.plotly_chart(fig_bar, use_container_width=True)
-            else:
-                st.info(
-                    "Upload a batch CSV containing 'family' or 'store_nbr' to view breakdown graphs."
-                )
 
     else:
         st.warning(
@@ -422,30 +518,18 @@ elif page == "About":
 
     st.markdown(
         """
-
 ## Retail Sales Forecasting
 
-This project predicts future retail sales using an XGBoost Regression Model.
-
-### Model Used
-
-- XGBoost
+This interactive dashboard predicts future retail sales using an ensemble LightGBM and XGBoost model.
 
 ### Features
-
 - Single Prediction
 - Batch Prediction
-- Interactive Dashboard
-- Analytics
+- Interactive Analytics & Time-Series Visualizations
 - Download Predictions
 
-### Developed By
-
-*Shivakumar G L*
-
-*Where predictions become interactive insights.*
-
-Python | Machine Learning | Streamlit
-
+### Author
+**Shivakumar G L**  
+*Where predictions become interactive insights*
 """
     )
