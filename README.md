@@ -1,49 +1,173 @@
-Retail Store Sales Forecasting Using Machine Learning and Time Series Analysis
+<div align="center">
 
-📌 Project Overview
+🛒 Retail Store Sales Forecasting
 
-This project focuses on forecasting retail store sales using Machine Learning and Time Series Analysis.
+Machine Learning & Time Series Forecasting
 
-The project is based on sales data from Corporación Favorita, a large Ecuadorian grocery retailer. The goal is to build a forecasting solution that predicts future sales for different product families across multiple stores.
+An end-to-end retail analytics project that transforms historical sales data into actionable demand forecasts.
 
-The solution is intended to support:
+<br>
 
-Inventory planning
 
-Supply chain optimization
 
-Reduction of stock shortages
 
-Data-driven business decisions
 
-Domain: Retail Analytics
-Difficulty Level: Advanced
 
-🎯 Project Objectives
 
-Understand the retail sales forecasting business problem
+</div>
 
-Clean and preprocess the datasets
+⭐ Why This Project?
 
-Perform Exploratory Data Analysis (EDA)
+Retail businesses need accurate demand forecasts to decide what to stock, where to stock it, and when to stock it.
 
-Engineer meaningful time-series and business features
+This project builds a complete forecasting pipeline using historical retail sales from Corporación Favorita, an Ecuadorian grocery retailer. It combines data cleaning, exploratory analysis, time-series feature engineering, machine learning, ensemble modeling, and an interactive Streamlit application.
 
-Build and compare multiple forecasting models
+Business Outcomes
 
-Evaluate model performance
+📦 Inventory Planning
 
-Generate business insights
+🚚 Supply Chain
 
-Develop an interactive dashboard
+📊 Decision Making
 
-Deploy the forecasting solution
+Better demand estimation
+
+Improved allocation planning
+
+Data-driven business insights
+
+Reduce stock shortages
+
+Store-level planning
+
+Identify high-demand products
+
+🎯 Project Snapshot
+
+Category
+
+Details
+
+Domain
+
+Retail Analytics
+
+Problem
+
+Store & product-family sales forecasting
+
+Data Source
+
+Corporación Favorita retail sales data
+
+Approach
+
+Machine Learning + Time Series Features
+
+Best Model
+
+Weighted LightGBM + XGBoost Ensemble
+
+Ensemble Weight
+
+LightGBM 15% + XGBoost 85%
+
+Best RMSLE
+
+0.4127
+
+R²
+
+0.9554
+
+Application
+
+Interactive Streamlit Dashboard
+
+Status
+
+🟢 Completed
+
+🚀 Key Features
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+🔮 Prediction
+
+Single sales prediction
+
+Batch prediction
+
+Submission prediction
+
+Prediction output download
+
+</td>
+<td width="50%" valign="top">
+
+📊 Analytics
+
+Sales trend analysis
+
+Store performance analysis
+
+Product-family analysis
+
+Forecast distribution
+
+Model performance metrics
+
+</td>
+</tr>
+</table>
+
+🧠 Solution Architecture
+
+                    RETAIL SALES DATA
+                           │
+        ┌──────────────────┼──────────────────┐
+        ↓                  ↓                  ↓
+   Sales Data        Store Data        External Data
+   train.csv         stores.csv        oil.csv
+   test.csv                           holidays_events.csv
+   transactions.csv
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           ↓
+                  DATA PREPROCESSING
+                           ↓
+                       EDA
+                           ↓
+                 FEATURE ENGINEERING
+                           │
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+      Date Features   Lag Features    Business Features
+          │                │                │
+          └────────────────┼────────────────┘
+                           ↓
+                   MODEL DEVELOPMENT
+                           │
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+       LightGBM         XGBoost          CatBoost
+          │                │
+          └────────┬───────┘
+                   ↓
+            WEIGHTED ENSEMBLE
+          LightGBM 15% + XGBoost 85%
+                   ↓
+             SALES FORECAST
+                   ↓
+          STREAMLIT DASHBOARD
 
 📂 Dataset
 
 The project uses multiple datasets containing historical sales, product information, store information, holidays, transactions, oil prices, and prediction data.
 
-Main Files
+Dataset Files
 
 File
 
@@ -81,65 +205,37 @@ submission.csv
 
 Final generated prediction output
 
-Important Fields
+Important Features
 
-store_nbr – Identifies the store where products are sold.
+Feature
 
-family – Identifies the product family.
+Meaning
 
-sales – Total sales for a product family at a particular store and date.
+store_nbr
 
-onpromotion – Number of items in a product family that were on promotion at a store on a particular date.
+Identifies the store
 
-Dataset Link
+family
 
-Google Drive Dataset
+Identifies the product family
 
-🔎 Important Business Factors
+sales
 
-Several external and calendar-related factors can influence retail sales.
+Total sales for a product family at a store and date
 
-Holidays and Events
+onpromotion
 
-The holidays_events.csv dataset contains information about holidays and events. Special attention is given to transferred holidays, bridge days, work days, and additional holidays.
+Number of items in a product family on promotion
 
-Oil Prices
+📥 Dataset
 
-Ecuador's economy is influenced by oil prices, so daily oil price information can be considered as an external forecasting indicator.
+Access the Dataset on Google Drive
 
-Pay Days
-
-Public-sector wages are paid every two weeks on the 15th and on the last day of the month. These dates may influence supermarket purchasing behavior.
-
-Earthquake Effect
-
-A magnitude 7.8 earthquake occurred in Ecuador on April 16, 2016. Relief efforts increased demand for products such as water and other essential goods for several weeks.
-
-🔄 Project Workflow
-
-Business Understanding
-        ↓
-Data Understanding
-        ↓
-Data Cleaning
-        ↓
-Exploratory Data Analysis
-        ↓
-Feature Engineering
-        ↓
-Model Development
-        ↓
-Model Evaluation
-        ↓
-Business Insights
-        ↓
-Dashboard Development
-        ↓
-Deployment
+🔍 Data Analysis
 
 🧹 Data Cleaning
 
-The data preparation stage includes:
+The data preparation pipeline includes:
 
 Loading and inspecting datasets
 
@@ -147,7 +243,7 @@ Handling missing values
 
 Checking duplicate records
 
-Converting date columns into appropriate formats
+Converting date columns
 
 Validating data types
 
@@ -161,105 +257,158 @@ Preparing data for time-series modeling
 
 The analysis covers:
 
-Overall sales trends over time
+Sales & Products
+
+Time & Events
+
+External Factors
+
+Overall sales trends
+
+Monthly/yearly patterns
+
+Oil prices
 
 Sales by store
 
+Day-of-week patterns
+
+Holidays & events
+
 Sales by product family
 
-Promotion vs. sales relationship
+Seasonal demand
 
-Sales during holidays and events
+Major events
 
-Monthly and yearly sales patterns
+Promotion vs. sales
 
-Day-of-week sales patterns
+Store performance
 
-Store-level performance
+Earthquake effect
 
 Product-family performance
 
-Impact of oil prices
+Demand patterns
 
-Impact of major events
+—
 
 🛠️ Feature Engineering
 
-Date Features
+📅 Date Features
 
-Year
+Year • Month • Day • Day of Week • Week of Year • Quarter • Weekend Indicator
 
-Month
+⏱️ Time-Series Features
 
-Day
+Lag Sales • Rolling Averages • Rolling Sums • Previous-Day Sales • Previous-Week Sales • Previous-Month Sales
 
-Day of week
+🏪 Business Features
 
-Week of year
+Store Number • Product Family • Promotion Indicators • Holiday Indicators • Store Cluster • Store Type • Oil Price
 
-Quarter
+⚠️ Feature engineering is designed carefully to avoid data leakage, particularly when generating lag and rolling features.
 
-Weekend indicator
+🌍 Important Business Factors
 
-Time-Series Features
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Lag sales
+🎉 Holidays & Events
 
-Rolling averages
+The holidays_events.csv dataset contains information about holidays and events, including transferred holidays, bridge days, work days, and additional holidays.
 
-Rolling sums
+🛢️ Oil Prices
 
-Previous-day sales
+Daily oil prices are included as an external forecasting indicator because Ecuador's economy is influenced by oil prices.
 
-Previous-week sales
+</td>
+<td width="50%" valign="top">
 
-Previous-month sales
+💰 Pay Days
 
-Business Features
+Public-sector wages are paid every two weeks on the 15th and the last day of the month. These dates may influence supermarket purchasing behavior.
 
-Store number
+🌍 Earthquake Effect
 
-Product family
+A magnitude 7.8 earthquake occurred in Ecuador on April 16, 2016. Relief efforts increased demand for products such as water and other essential goods for several weeks.
 
-Promotion indicators
-
-Holiday indicators
-
-Store cluster
-
-Store type
-
-Oil price
-
-Feature engineering is designed carefully to avoid data leakage, especially when creating lag and rolling features.
+</td>
+</tr>
+</table>
 
 🤖 Machine Learning
 
 The project evaluates multiple forecasting and machine-learning approaches:
 
+Model
+
+Purpose
+
 LightGBM
+
+Gradient boosting model for efficient tabular forecasting
 
 XGBoost
 
+Gradient boosting model for strong predictive performance
+
 CatBoost
 
-Statistical time-series techniques
+Additional machine-learning comparison
+
+Statistical Time-Series Techniques
+
+Traditional forecasting comparison
+
+Weighted Ensemble
+
+Combines LightGBM and XGBoost predictions
+
+Validation Strategy
+
+The validation strategy respects the chronological order of the data rather than randomly shuffling observations, which is important for time-series forecasting.
+
+📈 Model Performance
+
+🏆 Final Model
 
 Weighted LightGBM + XGBoost Ensemble
 
-The validation strategy respects the chronological order of the data rather than randomly shuffling observations.
+Metric
 
-📈 Model Evaluation
-
-The models are evaluated using:
+Result
 
 RMSLE
 
+0.4127
+
 MAE
+
+76.2772
 
 RMSE
 
+262.7155
+
 R²
+
+0.9554
+
+Ensemble Configuration
+
+Model
+
+Weight
+
+LightGBM
+
+15%
+
+XGBoost
+
+85%
 
 Model Comparison
 
@@ -305,91 +454,131 @@ R²
 
 0.9554
 
-Final Ensemble Configuration
-
-LightGBM → 15%
-XGBoost  → 85%
-
-🏆 Best Model
-
-Weighted LightGBM + XGBoost Ensemble
-
-Validation performance:
-
-RMSLE : 0.4127
-MAE   : 76.2772
-RMSE  : 262.7155
-R²    : 0.9554
-
 💡 Business Insights
 
-The project provides insights into:
+The project is designed to answer practical retail questions:
 
-Which stores generate the highest sales
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Which product families have the highest demand
+Which stores generate the highest sales?
 
-How promotions affect sales
+Which product families have the highest demand?
 
-Seasonal demand patterns
+How do promotions affect sales?
 
-The effect of holidays and events
+What are the seasonal demand patterns?
 
-The influence of external factors
+</td>
+<td width="50%" valign="top">
 
-Stores or products requiring additional inventory planning
+How do holidays and events affect demand?
 
-📊 Interactive Streamlit Dashboard
+What influence do external factors have?
 
-The project includes an interactive Streamlit dashboard for exploring sales trends, generating predictions, analyzing forecast distributions, and downloading prediction outputs.
+Which stores or products require additional inventory planning?
 
-Dashboard Capabilities
+</td>
+</tr>
+</table>
 
-📈 Sales trend analysis
+🖥️ Interactive Streamlit Dashboard
 
-🏪 Store performance analysis
+The Streamlit application brings the forecasting model and analytics together in an interactive interface.
 
-📦 Product-family analysis
+Dashboard Modules
 
-🔮 Single sales prediction
+Module
 
-📦 Batch prediction
+Purpose
 
-📊 Forecast distribution
+🏠 Dashboard Overview
 
-📏 Model performance metrics
-
-📄 Prediction output download
-
-🖥️ Dashboard Screenshots
-
-The screenshot filenames below match the files currently present in the screenshots/ folder.
-
-Dashboard Overview
-
-
+Application overview and key information
 
 🔮 Single Prediction
 
-
+Generate an individual sales forecast
 
 📦 Batch Prediction
 
-
+Generate predictions for multiple records
 
 📈 Sales Analytics
 
-
+Explore trends and forecast distributions
 
 📄 Submission Prediction
 
+View and analyze generated prediction data
 
+ℹ️ About Application
 
-ℹ️ About the Application
+Project and application information
 
+📸 Dashboard Preview
 
+<table>
+<tr>
+<td width="50%" valign="top">
 
-💻 Technologies Used
+🏠 Dashboard Overview
+
+<img src="screenshots/Dashboard_Preview%20at%207.10.55%20PM.png" width="100%">
+
+</td>
+<td width="50%" valign="top">
+
+🔮 Single Prediction
+
+<img src="screenshots/Single_predictions%20at%207.17.49%20PM.png" width="100%">
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" valign="top">
+
+📦 Batch Prediction
+
+<img src="screenshots/Batch_predictions%20test%202026-09-01%20at%207.21.00%20PM.png" width="100%">
+
+</td>
+<td width="50%" valign="top">
+
+📈 Sales Analytics
+
+<img src="screenshots/Analytic_dashboard%207.14.23%20PM.png" width="100%">
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" valign="top">
+
+📄 Submission Prediction
+
+<img src="screenshots/Analytics_Submission%202026-09-01%20at%207.28.47%20PM.png" width="100%">
+
+</td>
+<td width="50%" valign="top">
+
+ℹ️ About Application
+
+<img src="screenshots/About_me%20at%207.30.51%20PM.png" width="100%">
+
+</td>
+</tr>
+</table>
+
+💻 Technology Stack
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+🐍 Programming
 
 Python
 
@@ -397,11 +586,10 @@ Pandas
 
 NumPy
 
-Matplotlib
+</td>
+<td width="33%" valign="top">
 
-Seaborn
-
-Plotly
+🤖 Machine Learning
 
 Scikit-learn
 
@@ -413,9 +601,26 @@ CatBoost
 
 Statsmodels
 
+</td>
+<td width="34%" valign="top">
+
+📊 Visualization & App
+
+Matplotlib
+
+Seaborn
+
+Plotly
+
 Streamlit
 
-Git & GitHub
+Git
+
+GitHub
+
+</td>
+</tr>
+</table>
 
 📁 Project Structure
 
@@ -446,51 +651,47 @@ Retail-Sales-Forecasting/
 ├── .gitignore
 └── .python-version
 
-🚀 How to Run the Project
+🚀 Installation & Setup
 
-1. Clone the repository
+1. Clone the Repository
 
 git clone https://github.com/sgl13/Retail-Sales-Forecasting.git
 cd Retail-Sales-Forecasting
 
-2. Create a virtual environment
+2. Create a Virtual Environment
 
 python -m venv .venv
 
-3. Activate the virtual environment
-
-macOS / Linux:
+macOS / Linux
 
 source .venv/bin/activate
 
-Windows:
+Windows
 
 .venv\Scripts\activate
 
-4. Upgrade pip
+3. Upgrade pip
 
 python -m pip install --upgrade pip
 
-5. Install dependencies
+4. Install Dependencies
 
 pip install -r requirements.txt
 
-6. Verify installation
+5. Verify Installation
 
 python --version
 streamlit --version
 
-7. Run the Streamlit application
+6. Launch the Dashboard
 
 streamlit run app.py
 
-Open the local URL shown in the terminal, usually:
+Then open:
 
 http://localhost:8501
 
-8. Stop the application
-
-Press:
+Stop the application with:
 
 Ctrl + C
 
@@ -501,66 +702,162 @@ The main forecasting notebook is:
 notebooks/
 └── RetailStoreSales_Forecasting_Using_Machine_Learning_&_Time_Series_Analysis.ipynb
 
+The notebook contains the data analysis, feature engineering, forecasting workflow, and model development.
+
 📦 Project Deliverables
 
-Source Code
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Jupyter Notebook
+✅ Source Code
+
+✅ Jupyter Notebook
+
+✅ EDA
+
+✅ Feature Engineering
+
+✅ Trained Machine Learning Models
+
+</td>
+<td width="50%" valign="top">
+
+✅ Interactive Streamlit Dashboard
+
+✅ Batch Prediction
+
+✅ Submission Prediction Output
+
+✅ Final Report
+
+✅ Presentation
+
+✅ GitHub Repository
+
+</td>
+</tr>
+</table>
+
+📊 Project Evaluation
+
+Criteria
+
+Marks
+
+Business Understanding
+
+10
+
+Data Cleaning
+
+10
 
 EDA
 
+15
+
 Feature Engineering
 
-Trained Machine Learning Models
+15
 
-Interactive Streamlit Dashboard
+Model Development
 
-Batch Prediction
+20
 
-Submission Prediction Output
+Model Evaluation
 
-Final Report
+10
+
+Dashboard
+
+10
+
+Business Insights
+
+5
+
+Documentation
+
+3
 
 Presentation
 
-GitHub Repository
+2
+
+Total
+
+100
 
 🎓 Learning Outcomes
 
-After completing this project, the learner can:
+By completing this project, the following practical skills are demonstrated:
 
-Execute an end-to-end data science project
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Work with retail time-series data
+End-to-end data science workflow
 
-Perform data cleaning and EDA
+Retail time-series analysis
 
-Engineer forecasting features
+Data cleaning and preprocessing
 
-Build machine-learning forecasting models
+Exploratory data analysis
 
-Evaluate model performance
+Forecasting feature engineering
 
-Develop interactive Streamlit dashboards
+Machine-learning model development
 
-Generate business recommendations
+</td>
+<td width="50%" valign="top">
 
-Present a data science project using industry best practices
+Ensemble modeling
 
-# 👨‍💻 Author
+Model evaluation
 
-## Shivakumar G L
+Interactive Streamlit dashboard development
 
-**Retail Sales Forecasting | Machine Learning | Time Series | Streamlit | AWS**
+Business insight generation
 
-GitHub: [@sgl13](https://github.com/sgl13)
+Git and GitHub project management
 
-> **“Where predictions become interactive insights.”**
+Technical project presentation
 
----
+</td>
+</tr>
+</table>
+
+👨‍💻 Author
+
+<div align="center">
+
+Shivakumar G L
+
+Retail Sales Foresight & Demand Forecasting
+
+Python • Machine Learning • Time Series • Streamlit • AWS
+
+GitHub: @sgl13
+
+“Where predictions become interactive insights.”
+
+</div>
 
 📌 Project Status
 
-Status: ✅ Completed
+<div align="center">
 
-The project includes data preprocessing, exploratory analysis, feature engineering, machine-learning model development, ensemble forecasting, model evaluation, Streamlit visualization, batch prediction, and submission output generation.
+🟢 COMPLETED
+
+</div>
+
+The completed project includes:
+
+Data Preprocessing → EDA → Feature Engineering → Model Development → Ensemble Forecasting → Model Evaluation → Streamlit Dashboard → Batch Prediction → Submission Output
+
+<div align="center">
+
+
+
+</div>
