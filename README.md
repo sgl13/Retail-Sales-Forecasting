@@ -1,469 +1,198 @@
-🛒 Retail Store Sales Forecasting Using Machine Learning and Time Series Analysis
+README.md
+
+
+🛒 Retail Store Sales Forecasting
+Machine Learning + Time Series Analysis + Streamlit Dashboard
 
 📌 Project Overview
-
-This project focuses on analyzing retail sales data and building a machine learning model to forecast future sales.
-
-The dataset is based on Corporación Favorita, a large Ecuadorian grocery retailer.
+Project	Details
+Domain	Retail Analytics
+Company Dataset	Corporación Favorita
+Problem	Future Retail Sales Forecasting
+Target	Sales
+Approach	Machine Learning + Time Series Analysis
+Final Model	LightGBM + XGBoost Ensemble
+Application	Interactive Streamlit Dashboard
+Status	✅ Completed
+Project Workflow
+Data Collection → Data Cleaning → EDA → Feature Engineering → Model Training → Evaluation → Ensemble Model → Prediction → Dashboard
 
 Project Includes
 
-Data Cleaning
 
-Exploratory Data Analysis (EDA)
-
-Feature Engineering
-
-Feature Selection
-
-Time-Series Feature Creation
-
-Machine Learning Model Training
-
-Model Evaluation
-
-Ensemble Modeling
-
-Business Insights
-
-Streamlit Dashboard
-
+🧹 Data Cleaning	📊 Exploratory Data Analysis
+⚙️ Feature Engineering	🎯 Feature Selection
+⏱️ Time-Series Features	🤖 Machine Learning
+📈 Model Evaluation	🏆 Ensemble Modeling
+💡 Business Insights	🖥️ Streamlit Dashboard
 📊 Dataset
-
 The project uses multiple datasets containing historical sales, store information, product families, holidays, transactions, oil prices, and prediction data.
 
-Main Dataset Files
-
-File
-
-Description
-
-train.csv
-
-Historical training data
-
-test.csv
-
-Data used for future sales prediction
-
-sample_submission.csv
-
-Required submission format
-
-stores.csv
-
-Store information
-
-oil.csv
-
-Daily oil price information
-
-holidays_events.csv
-
-Holiday and event information
-
-transactions.csv
-
-Transaction information
-
-submission.csv
-
-Final prediction output
-
+Dataset Files
+File	Description
+train.csv	Historical training data
+test.csv	Data used for future sales prediction
+sample_submission.csv	Required submission format
+stores.csv	Store information
+oil.csv	Daily oil price information
+holidays_events.csv	Holiday and event information
+transactions.csv	Transaction information
+submission.csv	Final prediction output
 Main Features
-
-Feature
-
-Description
-
-store_nbr
-
-Store identifier
-
-family
-
-Product family
-
-sales
-
-Total sales
-
-onpromotion
-
-Number of products on promotion
-
-date
-
-Sales date
-
+Feature	Description	Feature	Description
+store_nbr	Store identifier	family	Product family
+sales	Total sales	onpromotion	Products on promotion
+date	Sales date	oil	External oil-price indicator
 The test dataset contains the 15 days after the last date in the training data.
 
 Dataset Link
-
 Google Drive Dataset
 
 🔍 Exploratory Data Analysis
-
-Analysis Performed
-
-Missing-value analysis
-
-Duplicate-value analysis
-
-Data-type checking
-
-Sales distribution analysis
-
-Store-wise sales analysis
-
-Product-family analysis
-
-Promotion vs. sales analysis
-
-Monthly sales trends
-
-Yearly sales trends
-
-Day-of-week analysis
-
-Holiday and event analysis
-
-Correlation analysis
-
-Oil-price analysis
-
-Major-event analysis
-
+Data Analysis	Business Analysis
+Missing-value analysis	Store-wise sales
+Duplicate-value analysis	Product-family sales
+Data-type checking	Promotion vs. sales
+Sales distribution	Monthly sales trends
+Correlation analysis	Yearly sales trends
+Distribution analysis	Day-of-week sales
+Holiday analysis	External-factor analysis
+Major-event analysis	Oil-price analysis
 🛠️ Data Preprocessing
-
-Preprocessing Steps
-
-Load and inspect datasets
-
-Handle missing values
-
-Check duplicate records
-
-Convert date columns
-
-Validate data types
-
-Merge relevant datasets
-
-Encode categorical variables
-
-Create date-based features
-
-Create time-series features
-
-Select relevant features
-
-Prepare data for model training
-
-Time-series features are created carefully to avoid data leakage.
+Data Preparation	Feature Preparation
+Handle missing values	Create date features
+Check duplicate records	Create time-series features
+Convert date columns	Encode categorical variables
+Validate data types	Feature selection
+Merge relevant datasets	Prepare model-ready data
+Clean inconsistent data	Avoid data leakage
+Time-series features are created carefully so that future information is not used during model training.
 
 ⚙️ Feature Engineering
-
 📅 Date Features
-
-Feature
-
-Purpose
-
-Year
-
-Yearly trend
-
-Month
-
-Monthly seasonality
-
-Day
-
-Daily pattern
-
-Day of Week
-
-Weekly pattern
-
-Week of Year
-
-Weekly seasonality
-
-Quarter
-
-Quarterly trend
-
-Weekend
-
-Weekend demand
-
+Feature	Purpose	Feature	Purpose
+Year	Yearly trend	Month	Monthly seasonality
+Day	Daily pattern	Day of Week	Weekly pattern
+Week of Year	Weekly seasonality	Quarter	Quarterly trend
+Weekend	Weekend demand	—	—
 ⏱️ Time-Series Features
-
-Lag Sales
-
-Rolling Average
-
-Rolling Sum
-
-Previous-Day Sales
-
-Previous-Week Sales
-
-Previous-Month Sales
-
+Feature	Feature	Feature	Feature
+Lag Sales	Rolling Average	Rolling Sum	Previous-Day Sales
+Previous-Week Sales	Previous-Month Sales	Historical Sales	Demand Patterns
 🏪 Business Features
-
-Store Number
-
-Product Family
-
-Promotion
-
-Holiday
-
-Store Cluster
-
-Store Type
-
-Oil Price
-
+Feature	Feature	Feature	Feature
+Store Number	Product Family	Promotion	Holiday
+Store Cluster	Store Type	Oil Price	Store-Level Information
 🔎 Important Business Factors
-
-Factor
-
-Description
-
-🎉 Holidays & Events
-
-Can influence customer demand
-
-🛢️ Oil Prices
-
-External economic indicator
-
-💰 Pay Days
-
-May influence purchasing behavior
-
-🌍 Earthquake
-
-Increased demand for essential products
-
+Factor	Description
+🎉 Holidays & Events	Can influence customer demand
+🛢️ Oil Prices	External economic indicator
+💰 Pay Days	May influence purchasing behavior
+🌍 Earthquake	Increased demand for essential products
 Holidays and Events
-
 The holidays_events.csv dataset contains information about holidays and events, including transferred holidays, bridge days, work days, and additional holidays.
 
 Oil Prices
-
 Daily oil price information is used as an external forecasting indicator.
 
 Pay Days
-
 Public-sector wages are paid every two weeks on the 15th and last day of the month.
 
 Earthquake Effect
-
-A magnitude 7.8 earthquake occurred in Ecuador on April 16, 2016, which increased demand for essential products during relief efforts.
+A magnitude 7.8 earthquake occurred in Ecuador on April 16, 2016, increasing demand for essential products during relief efforts.
 
 🤖 Machine Learning
-
 Target Variable
-
 Sales — Future Retail Sales
 
 Models Used
-
-LightGBM
-
-XGBoost
-
-CatBoost
-
-Statistical Time-Series Techniques
-
-Weighted LightGBM + XGBoost Ensemble
-
+Machine Learning Models	Forecasting Approach
+LightGBM	Time-Series Techniques
+XGBoost	Lag-Based Features
+CatBoost	Rolling Features
+LightGBM + XGBoost	Ensemble Forecasting
 Validation Strategy
-
-The project uses chronological validation instead of randomly shuffling the time-series data.
+The project uses chronological validation instead of randomly shuffling time-series data.
 
 📈 Model Evaluation
-
 Evaluation Metrics
-
-RMSLE
-
-MAE
-
-RMSE
-
-R² Score
-
+Metric	Purpose
+RMSLE	Measures logarithmic prediction error
+MAE	Measures average absolute error
+RMSE	Measures prediction error magnitude
+R² Score	Measures explained variance
 Model Comparison
-
-Model
-
-Metric
-
-Score
-
-LightGBM
-
-Validation L2 (MSE)
-
-0.1861
-
-XGBoost
-
-Individual metric not recorded
-
-—
-
-LightGBM + XGBoost Ensemble
-
-RMSLE
-
-0.4127
-
-LightGBM + XGBoost Ensemble
-
-MAE
-
-76.2772
-
-LightGBM + XGBoost Ensemble
-
-RMSE
-
-262.7155
-
-LightGBM + XGBoost Ensemble
-
-R²
-
-0.9554
-
-🏆 Final Model
-
-Weighted LightGBM + XGBoost Ensemble
-
-Model
-
-Weight
-
-LightGBM
-
-15%
-
-XGBoost
-
-85%
-
+Model	Metric	Score
+LightGBM	Validation L2 (MSE)	0.1861
+XGBoost	Individual metric not recorded	—
+LightGBM + XGBoost Ensemble	RMSLE	0.4127
+LightGBM + XGBoost Ensemble	MAE	76.2772
+LightGBM + XGBoost Ensemble	RMSE	262.7155
+LightGBM + XGBoost Ensemble	R²	0.9554
+🏆 Final Ensemble
+Model	Weight
+LightGBM	15%
+XGBoost	85%
 Final Validation Performance
-
-Metric
-
-Result
-
-RMSLE
-
-0.4127
-
-MAE
-
-76.2772
-
-RMSE
-
-262.7155
-
-R²
-
-0.9554
-
-“Where many learners collaborate, stronger predictions emerge.”
+Metric	Result
+RMSLE	0.4127
+MAE	76.2772
+RMSE	262.7155
+R²	0.9554
+Final Model: Weighted LightGBM + XGBoost Ensemble
 
 💡 Business Insights
-
-The Project Helps Identify
-
-Highest-performing stores
-
-Highest-demand product families
-
-Promotion impact on sales
-
-Seasonal demand patterns
-
-Holiday demand changes
-
-External-factor impact
-
-Inventory planning opportunities
-
+Sales Insights	Planning Insights
+Highest-performing stores	Inventory planning
+Highest-demand product families	Supply chain optimization
+Promotion impact on sales	Store-level planning
+Seasonal demand patterns	Product-level planning
+Holiday demand changes	Demand forecasting
+External-factor impact	Data-driven decisions
 📊 Interactive Streamlit Dashboard
-
-The project includes an interactive Streamlit dashboard for sales analysis and prediction.
-
 Dashboard Modules
-
-Module
-
-Purpose
+Module	Purpose	Module	Purpose
+🏠 Dashboard Overview	Application overview	🔮 Single Prediction	Individual sales prediction
+📦 Batch Prediction	Multiple sales predictions	📈 Sales Analytics	Sales and forecast analysis
+📄 Submission Prediction	Prediction output	ℹ️ About Application	Project information
+🖼️ Dashboard Screenshots
+<table> <tr> <td width="50%" align="center">
 
 🏠 Dashboard Overview
+<img src="./screenshots/Dashboard_Preview%20at%207.10.55%20PM.png" width="100%">
 
-Application overview
+</td> <td width="50%" align="center">
 
 🔮 Single Prediction
+<img src="./screenshots/Single_predictions%20at%207.17.49%20PM.png" width="100%">
 
-Individual sales prediction
+</td> </tr>
+
+<tr> <td width="50%" align="center">
 
 📦 Batch Prediction
+<img src="./screenshots/Batch_predictions%20test%202026-09-01%20at%207.21.00%20PM.png" width="100%">
 
-Multiple sales predictions
+</td> <td width="50%" align="center">
 
 📈 Sales Analytics
+<img src="./screenshots/Analytic_dashboard%207.14.23%20PM.png" width="100%">
 
-Sales and forecast analysis
+</td> </tr>
+
+<tr> <td width="50%" align="center">
 
 📄 Submission Prediction
+<img src="./screenshots/Analytics_Submission%202026-09-01%20at%207.28.47%20PM.png" width="100%">
 
-Prediction output
+</td> <td width="50%" align="center">
 
 ℹ️ About Application
+<img src="./screenshots/About_me%20at%207.30.51%20PM.png" width="100%">
 
-Project information
-
-🖼️ Dashboard Screenshots
-
-Dashboard Overview
-
-
-
-Single Prediction
-
-
-
-Batch Prediction
-
-
-
-Sales Analytics
-
-
-
-Submission Prediction
-
-
-
-About Application
-
-
+</td> </tr> </table>
 
 📁 Project Structure
-
 Retail-Sales-Forecasting/
 │
 ├── data/
@@ -506,202 +235,93 @@ Retail-Sales-Forecasting/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
-
 🚀 How to Run the Project
-
 1. Clone the Repository
-
 git clone https://github.com/sgl13/Retail-Sales-Forecasting.git
 cd Retail-Sales-Forecasting
-
 2. Create a Virtual Environment
-
 python -m venv .venv
-
 3. Activate the Environment
-
-macOS / Linux
-
-source .venv/bin/activate
-
-Windows
-
-.venv\Scripts\activate
-
+Operating System	Command
+macOS / Linux	source .venv/bin/activate
+Windows	.venv\Scripts\activate
 4. Install Required Libraries
-
 pip install -r requirements.txt
-
 5. Run the Streamlit Application
-
 streamlit run app.py
-
-Open the local URL displayed in the Terminal.
-
+6. Open the Application
 http://localhost:8501
-
-6. Stop the Application
-
+7. Stop the Application
 Ctrl + C
-
 📓 Notebook
-
 Main Notebook
-
 RetailStoreSales_Forecasting_Using_Machine_Learning_&_Time_Series_Analysis.ipynb
-
 Notebook Includes
-
-Data Understanding
-
-Data Cleaning
-
-Exploratory Data Analysis
-
-Feature Engineering
-
-Feature Selection
-
-Model Training
-
-Model Evaluation
-
-Forecasting
-
+Analysis	Modeling
+Data Understanding	Model Training
+Data Cleaning	Model Evaluation
+Exploratory Data Analysis	Ensemble Modeling
+Feature Engineering	Forecasting
+Feature Selection	Prediction
 📦 Project Deliverables
-
-Source Code
-
-Jupyter Notebook
-
-EDA Report
-
-Feature Engineering
-
-Trained Models
-
-Streamlit Dashboard
-
-Batch Prediction
-
-Submission Prediction
-
-Final Report (PDF)
-
-Presentation
-
-GitHub Repository
-
-Project Demonstration Video
-
+Deliverable	Status	Deliverable	Status
+Source Code	✅	Jupyter Notebook	✅
+EDA Report	✅	Feature Engineering	✅
+Trained Models	✅	Streamlit Dashboard	✅
+Batch Prediction	✅	Submission Prediction	✅
+Final Report	✅	Presentation	✅
+GitHub Repository	✅	Demonstration Video	✅
 📝 Project Evaluation
-
-Criteria
-
-Marks
-
-Business Understanding
-
-10
-
-Data Cleaning
-
-10
-
-EDA
-
-15
-
-Feature Engineering
-
-15
-
-Model Development
-
-20
-
-Model Evaluation
-
-10
-
-Dashboard
-
-10
-
-Business Insights
-
-5
-
-Documentation
-
-3
-
-Presentation
-
-2
-
-Total
-
-100
+Criteria	Marks	Criteria	Marks
+Business Understanding	10	Data Cleaning	10
+EDA	15	Feature Engineering	15
+Model Development	20	Model Evaluation	10
+Dashboard	10	Business Insights	5
+Documentation	3	Presentation	2
+Total	100	
 
 🎓 Learning Outcomes
-
-Skills Developed
-
-Python Programming
-
-Data Cleaning
-
-Exploratory Data Analysis
-
-Feature Engineering
-
-Time-Series Analysis
-
-Machine Learning
-
-Ensemble Modeling
-
-Model Evaluation
-
-Streamlit Dashboard Development
-
-Business Analytics
-
-Git & GitHub
-
+Technical Skills	Project Skills
+Python Programming	End-to-End Data Science
+Pandas & NumPy	Data Cleaning
+Matplotlib & Seaborn	Exploratory Data Analysis
+Scikit-learn	Feature Engineering
+XGBoost	Time-Series Analysis
+LightGBM	Ensemble Modeling
+CatBoost	Model Evaluation
+Plotly & Streamlit	Business Analytics
+Git & GitHub	Project Presentation
 🎯 Project Objective
-
-The objective of this project is to analyze historical retail sales data and build a machine learning forecasting solution that predicts future sales for different stores and product families.
-
-Business Applications
-
-Inventory Planning
-
-Supply Chain Optimization
-
-Store-Level Planning
-
-Product-Level Planning
-
-Demand Forecasting
-
-Data-Driven Business Decisions
-
+Objective	Business Application
+Forecast future sales	Inventory Planning
+Understand demand patterns	Supply Chain Optimization
+Analyze store performance	Store-Level Planning
+Analyze product demand	Product-Level Planning
+Identify sales drivers	Data-Driven Decisions
 👨‍💻 Author
-
 Shivakumar G L
-
 Retail Sales Foresight & Demand Forecasting
 
 “Where predictions become interactive insights.”
 
-Python | Machine Learning | Time Series | Streamlit
-
+Technology	Focus
+Python	Data & Machine Learning
+Machine Learning	Sales Forecasting
+Time Series	Demand Analysis
+Streamlit	Interactive Dashboard
+Git & GitHub	Version Control
 GitHub Profile
 
 📌 Project Status
-
 Completed ✅
 
-The project includes data preprocessing, EDA, feature engineering, machine learning model development, ensemble forecasting, model evaluation, Streamlit visualization, batch prediction, and submission output generation.
+Component	Status
+Data Preprocessing	✅
+EDA	✅
+Feature Engineering	✅
+Machine Learning	✅
+Ensemble Forecasting	✅
+Model Evaluation	✅
+Streamlit Dashboard	✅
+Batch Prediction	✅
+Submission Output	✅
