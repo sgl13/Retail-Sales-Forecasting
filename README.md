@@ -1,51 +1,47 @@
 # 🛒 Retail Store Sales Forecasting Using Machine Learning and Time Series Analysis
 
 ## 📌 Project Overview
-
 This project focuses on forecasting retail store sales using Machine Learning and Time Series Analysis.
 
-The project is based on sales data from **Corporación Favorita**, a large Ecuadorian grocery retailer. The goal is to build a forecasting solution that predicts future sales for different product families across multiple stores.
+The project is based on sales data from Corporación Favorita, a large Ecuadorian grocery retailer. The goal is to build a forecasting solution that predicts future sales for different product families across multiple stores.
 
 The solution supports:
-
 - Inventory planning
 - Supply chain optimization
 - Reduction of stock shortages
 - Data-driven business decisions
 
 ## 📊 Dataset
-
 The project uses multiple datasets including historical sales, product information, store information, holidays, transactions, external indicators (oil prices), and a prediction dataset.
 
 **Main Features**
 
 | Feature | Description |
 |---|---|
-| `store_nbr` | Identifies the store where products are sold |
-| `family` | Identifies the type of product sold |
-| `sales` | Total sales for a product family at a particular store and date |
-| `onpromotion` | Number of items in a product family that were being promoted |
-| `date` | Date of the sales record |
+| store_nbr | Identifies the store where products are sold |
+| family | Identifies the type of product sold |
+| sales | Total sales for a product family at a particular store and date |
+| onpromotion | Number of items in a product family that were being promoted |
+| date | Date of the sales record |
 
 **Dataset Files**
 
 | File | Description |
 |---|---|
-| `train.csv` | Historical training data (store, product family, promotion info, sales) |
-| `test.csv` | Data for the dates for which sales need to be predicted |
-| `sample_submission.csv` | Sample file showing the required submission format |
-| `stores.csv` | Store metadata — city, state, type, cluster |
-| `oil.csv` | Daily oil price information |
-| `holidays_events.csv` | Holiday and event information |
-| `transactions.csv` | Transaction-related information |
-| `submission.csv` | Final generated prediction output |
+| train.csv | Historical training data (store, product family, promotion info, sales) |
+| test.csv | Data for the dates for which sales need to be predicted |
+| sample_submission.csv | Sample file showing the required submission format |
+| stores.csv | Store metadata — city, state, type, cluster |
+| oil.csv | Daily oil price information |
+| holidays_events.csv | Holiday and event information |
+| transactions.csv | Transaction-related information |
+| submission.csv | Final generated prediction output |
 
-> The test dataset contains the 15 days after the last date in the training data.
+The test dataset contains the 15 days after the last date in the training data.
 
-**Dataset Link:** [Google Drive Dataset](https://drive.google.com/drive/folders/1qm6rvWCC_YbPjbav35lzzfT8EihbDDyU?usp=sharing)
+Dataset Link: Google Drive Dataset
 
 ## 🔍 Exploratory Data Analysis
-
 - Checking missing values and duplicate records
 - Checking and validating data types
 - Distribution analysis
@@ -58,7 +54,6 @@ The project uses multiple datasets including historical sales, product informati
 - Analysis of major events affecting demand
 
 ## 🛠️ Data Preprocessing
-
 - Loading and inspecting datasets
 - Handling missing values and duplicate records
 - Converting date columns into appropriate formats
@@ -68,10 +63,9 @@ The project uses multiple datasets including historical sales, product informati
 - Creating date-based and time-series features
 - Feature selection and preparation for modeling
 
-> Feature engineering is performed carefully to **avoid data leakage**, especially while creating lag and rolling features.
+Feature engineering is performed carefully to avoid data leakage, especially while creating lag and rolling features.
 
 ## ⚙️ Feature Engineering
-
 **Date Features**
 - Year, Month, Day, Day of week, Week of year, Quarter, Weekend indicator
 
@@ -98,7 +92,6 @@ Public-sector wages are paid every two weeks — on the 15th and on the last day
 A magnitude 7.8 earthquake struck Ecuador on April 16, 2016. Relief efforts increased demand for water and other essential goods for several weeks afterward.
 
 ## 🔄 Project Workflow
-
 ```
 Business Understanding
         ↓
@@ -120,8 +113,7 @@ Dashboard Development
 ```
 
 ## 🤖 Machine Learning
-
-**Target variable:** `sales` — Future Retail Sales
+Target variable: `sales` — Future Retail Sales
 
 **Models Used**
 - LightGBM
@@ -134,8 +126,7 @@ Dashboard Development
 The validation strategy respects the chronological order of the data rather than randomly shuffling observations — future information must never be used when training a forecasting model.
 
 ## 📈 Model Evaluation
-
-Models are evaluated using **RMSLE**, **MAE**, **RMSE**, and **R² Score**.
+Models are evaluated using RMSLE, MAE, RMSE, and R² Score.
 
 | Model | Evaluation Metric | Score |
 |---|---|---|
@@ -150,11 +141,10 @@ Models are evaluated using **RMSLE**, **MAE**, **RMSE**, and **R² Score**.
 - LightGBM: 15%
 - XGBoost: 85%
 
-> Ensemble weights were selected using validation RMSLE.
+Ensemble weights were selected using validation RMSLE.
 
 ## 🏆 Best Model
-
-The **LightGBM + XGBoost weighted ensemble** is the final model used for prediction.
+The LightGBM + XGBoost weighted ensemble is the final model used for prediction.
 
 | Metric | Value |
 |---|---|
@@ -163,10 +153,9 @@ The **LightGBM + XGBoost weighted ensemble** is the final model used for predict
 | RMSE | 262.7155 |
 | R² | 0.9554 |
 
-> *"Where many learners collaborate, stronger predictions emerge."*
+*"Where many learners collaborate, stronger predictions emerge."*
 
 ## 💡 Business Insights
-
 - Which stores generate the highest sales
 - Which product families have the highest demand
 - How promotions affect sales
@@ -176,7 +165,6 @@ The **LightGBM + XGBoost weighted ensemble** is the final model used for predict
 - Stores or products requiring additional inventory planning
 
 ## 📊 Interactive Streamlit Dashboard
-
 An interactive Streamlit dashboard is included for exploring sales trends, generating predictions, analyzing forecast distributions, and working with prediction outputs.
 
 **Dashboard Features**
@@ -186,42 +174,44 @@ An interactive Streamlit dashboard is included for exploring sales trends, gener
 - 📄 Submission Prediction
 - ℹ️ About the Application
 
-### 🖥️ Dashboard Preview
+## 🖥️ Dashboard Preview
 
-![Dashboard Preview](screenshots/Dashboard_Preview%20at%207.10.55%20PM.png)
+![Dashboard Preview](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Dashboard_Preview%20at%207.10.55%E2%80%AFPM.png?raw=true)
 
 Home view of the Streamlit dashboard, giving quick access to every module below.
 
 ### 🔮 Single Prediction
 
-![Single Prediction Screenshot](screenshots/Single_predictions%20at%207.17.49%20PM.png)
+![Single Prediction Screenshot](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Single_predictions3%20at%207.19.53%E2%80%AFPM.png?raw=true)
 
 Enter store, product family, date, and promotion details to get an instant sales prediction from the trained ensemble model.
 
 ### 📦 Batch Prediction
 
-![Batch Prediction Screenshot](screenshots/Batch_predictions%20test%202026-09-01%20at%207.21.00%20PM.png)
+![Batch Prediction Screenshot](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Batch_predictions%20Submission%20%202026-09-01%20at%207.26.45%E2%80%AFPM.png?raw=true)
+
+![Batch Prediction Screenshot 2](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Batch_predictions%20submission2%20%20at%207.27.47%E2%80%AFPM.png?raw=true)
 
 Upload a batch of records (CSV) to generate sales forecasts for multiple stores and product families at once.
 
 ### 📈 Sales Analytics & Submission
 
-![Analytics Submission Screenshot](screenshots/Analytics_Submission%202026-09-01%20at%207.28.47%20PM.png)
+![Analytics Dashboard Screenshot](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Analytic_dashboard%207.14.23%E2%80%AFPM.png?raw=true)
+
+![Analytics Submission Screenshot](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/Analytics_Submission2%20%20at%207.29.53%E2%80%AFPM.png?raw=true)
 
 Explore forecast distributions, product-family performance, and the final submission output.
 
 ### ℹ️ About the Application
 
-![About Screenshot](screenshots/About_me%20at%207.30.51%20PM.png)
+![About Screenshot](https://github.com/sgl13/Retail-Sales-Forecasting/blob/38c22b46fb3dbd8ee33ebfd20883e470c9f896fb/screenshots/About_me%20at%207.30.51%E2%80%AFPM.png?raw=true)
 
 Overview of the project, author, and technologies used to build the dashboard.
 
 ## 💻 Technologies Used
-
 Python · Pandas · NumPy · Matplotlib · Seaborn · Plotly · Scikit-learn · XGBoost · LightGBM · CatBoost · Statsmodels · Streamlit · Git & GitHub
 
 ## 📁 Project Structure
-
 ```
 Retail-Sales-Forecasting/
 │
@@ -268,51 +258,51 @@ Retail-Sales-Forecasting/
 └── .python-version
 ```
 
-> Keep your virtual environment (`.venv/` or `venv/`) local and excluded from Git via `.gitignore`.
+Keep your virtual environment (`.venv/` or `venv/`) local and excluded from Git via `.gitignore`.
 
 ## 🚀 How to Run the Project
 
 **1. Clone the repository**
-```bash
+```
 git clone https://github.com/sgl13/Retail-Sales-Forecasting.git
 cd Retail-Sales-Forecasting
 ```
 
 **2. Create a virtual environment**
-```bash
+```
 python -m venv .venv
 ```
 
 **3. Activate the virtual environment**
 
 macOS / Linux
-```bash
+```
 source .venv/bin/activate
 ```
 
 Windows
-```bash
+```
 .venv\Scripts\activate
 ```
 
 **4. Upgrade pip**
-```bash
+```
 python -m pip install --upgrade pip
 ```
 
 **5. Install required libraries**
-```bash
+```
 pip install -r requirements.txt
 ```
 
 **6. Verify installation**
-```bash
+```
 python --version
 streamlit --version
 ```
 
 **7. Run the Streamlit application**
-```bash
+```
 streamlit run app.py
 ```
 
@@ -326,14 +316,11 @@ http://localhost:8501
 Press `Ctrl + C`
 
 ## 📓 Notebooks
-
-**Retail Store Sales Forecasting**
-`RetailStoreSales_Forecasting_Using_Machine_Learning_&_Time_Series_Analysis.ipynb`
+Retail Store Sales Forecasting `RetailStoreSales_Forecasting_Using_Machine_Learning_&_Time_Series_Analysis.ipynb`
 
 This notebook contains data understanding, data cleaning, exploratory data analysis, feature engineering, feature selection, model development, model evaluation, and the full forecasting workflow.
 
 ## 📦 Project Deliverables
-
 - Source Code
 - Jupyter Notebook
 - EDA Report
@@ -364,9 +351,7 @@ This notebook contains data understanding, data cleaning, exploratory data analy
 | **Total** | **100** |
 
 ## 🎓 Learning Outcomes
-
 After completing this project, the learner should be able to:
-
 - Execute an end-to-end data science project
 - Work with retail time-series data
 - Perform data cleaning and EDA
@@ -378,7 +363,6 @@ After completing this project, the learner should be able to:
 - Present a data science project using industry best practices
 
 ## 🎯 Project Objective
-
 The objective of this project is to analyze historical retail sales data and build a machine learning forecasting solution that can predict future sales for different stores and product families.
 
 **Skills Demonstrated**
@@ -386,11 +370,10 @@ The objective of this project is to analyze historical retail sales data and bui
 Python · Pandas · NumPy · Matplotlib · Seaborn · Plotly · Scikit-learn · XGBoost · LightGBM · CatBoost · Statsmodels · Data Cleaning · Exploratory Data Analysis · Feature Engineering · Feature Selection · Time-Series Analysis · Machine Learning · Forecasting · Ensemble Modeling · Model Evaluation · Streamlit · Git & GitHub
 
 ## 👨‍💻 Author
-
 **Shivakumar G L**
 
-*Retail Sales Foresight & Demand Forecasting*
+Retail Sales Foresight & Demand Forecasting
 
-> *"Where predictions become interactive insights."*
+*"Where predictions become interactive insights."*
 
-`Python` | `Machine Learning` | `Time Series` | `Streamlit`
+Python | Machine Learning | Time Series | Streamlit
