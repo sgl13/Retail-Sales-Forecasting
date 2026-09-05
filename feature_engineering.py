@@ -24,10 +24,13 @@ except Exception as e:
     MISSING_REFERENCE_FILES.append("data/holidays_events.csv")
 
 try:
-    HISTORY = pd.read_csv("data/train.csv", parse_dates=["date"])
+    HISTORY = pd.read_csv("data/train_recent.csv", parse_dates=["date"])
 except Exception as e:
-    HISTORY = pd.DataFrame()
-    MISSING_REFERENCE_FILES.append("data/train.csv")
+    try:
+        HISTORY = pd.read_csv("data/train.csv", parse_dates=["date"])
+    except Exception as e2:
+        HISTORY = pd.DataFrame()
+        MISSING_REFERENCE_FILES.append("data/train_recent.csv")
 
 
 def build_oil_features(oil_raw: pd.DataFrame) -> pd.DataFrame:
