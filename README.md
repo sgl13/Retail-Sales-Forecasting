@@ -132,7 +132,7 @@ Models are evaluated using RMSLE, MAE, RMSE, and R² Score.
 |---|---|---|
 | LightGBM | Validation L2 (MSE) | 0.1861 |
 | XGBoost | Individual metric not recorded | — |
-| LightGBM + XGBoost Ensemble | RMSLE | 0.4127 |
+| LightGBM + XGBoost Ensemble | RMSLE | 0.4167 |
 | LightGBM + XGBoost Ensemble | MAE | 76.2772 |
 | LightGBM + XGBoost Ensemble | RMSE | 262.7155 |
 | LightGBM + XGBoost Ensemble | R² | 0.9554 |
