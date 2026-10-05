@@ -1,4 +1,4 @@
-# ==========================================================
+
 # Import Libraries
 # ==========================================================
 
@@ -101,7 +101,7 @@ def enrich_with_test_metadata(sub_df):
 
     return sub_df, False, (
         "Your file has no 'date' column (sample_submission.csv format). "
-        "Please ensure test.csv is placed in the `data/` folder for metadata lookup."
+        "Please ensure test.csv is placed in the ⁠ data/ ⁠ folder for metadata lookup."
     )
 
 
@@ -523,13 +523,13 @@ elif page == "About":
 This interactive dashboard predicts future retail sales using an ensemble LightGBM and XGBoost model.
 
 ### Features
-- Single Prediction
-- Batch Prediction
-- Interactive Analytics & Time-Series Visualizations
-- Download Predictions
+•⁠  ⁠Single Prediction
+•⁠  ⁠Batch Prediction
+•⁠  ⁠Interactive Analytics & Time-Series Visualizations
+•⁠  ⁠Download Predictions
 
 ### Author
-**Shivakumar G L**  
-*Where predictions become interactive insights*
+*Shivakumar G L*  
+Where predictions become interactive insights
 """
     )
