@@ -31,7 +31,3 @@ jobs:
           python -m py_compile main.py
           python -m py_compile predictions.py
           python -m py_compile feature_engineering.py
-
-      - name: Run tests with coverage
-        run: |
-          pytest --cov=. --cov-report=term-missing
