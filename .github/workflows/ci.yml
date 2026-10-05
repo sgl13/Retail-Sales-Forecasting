@@ -23,6 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest pytest-cov
 
       - name: Check Python files
         run: |
@@ -30,6 +31,7 @@ jobs:
           python -m py_compile main.py
           python -m py_compile predictions.py
           python -m py_compile feature_engineering.py
-          - name: Run tests with coverage
-            run: |
-              pytest --cov=. --cov-report=term-missing
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=. --cov-report=term-missing
