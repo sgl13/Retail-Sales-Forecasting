@@ -138,8 +138,8 @@ Models are evaluated using RMSLE, MAE, RMSE, and R² Score.
 | LightGBM + XGBoost Ensemble | R² | 0.9554 |
 
 **Final Ensemble Configuration**
-- LightGBM: 15%
-- XGBoost: 85%
+- LightGBM: 25%
+- XGBoost: 75%
 
 Ensemble weights were selected using validation RMSLE.
 
@@ -148,7 +148,7 @@ The LightGBM + XGBoost weighted ensemble is the final model used for prediction.
 
 | Metric | Value |
 |---|---|
-| RMSLE | 0.4127 |
+| RMSLE | 0.4167 |
 | MAE | 76.2772 |
 | RMSE | 262.7155 |
 | R² | 0.9554 |
